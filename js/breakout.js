@@ -43,6 +43,7 @@ function drawBricks() {
 			bricks[c][r].y = brickY;
 			ctx.beginPath();
 			ctx.rect(brickX, brickY, brickWidth, brickHeight);
+			//overrode the syshtem. Fuck yes. You little bastard
 			ctx.fillStyle = "#0095DD";
 			ctx.fill();
 			ctx.closePath();
@@ -73,10 +74,11 @@ function draw() {
 
 	drawBall();
 	drawPaddle();
-	
+	collisionDetection();
 	drawBricks();
 	
-
+	
+	
 	//Bounce the ball off three walls - if it drops off the bottom - Game Over!
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
 	   dx = -dx;
@@ -130,6 +132,19 @@ function keyUpHandler(e) {
 		leftPressed = false;
 	}
 }
+	
+	function collisionDetection() {
+		for(c=0; c<brickColumnCount; c++) {
+			for(r=0; r<brickRowCount; r++) {
+				var b = bricks[c][r];
+				if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+					dy = -dy;
+				}
+			}
+		}
+	}
+	
+	
 	
 	
 setInterval(draw, 10);
