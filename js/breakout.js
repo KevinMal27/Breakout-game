@@ -27,6 +27,11 @@ var brickOffsetLeft = 30;
 // Keep Score
 var score = 0
 
+//Game Sounds
+var WINNING_SOUND = new Audio('sounds/woohoo.wav');
+var SCORE_SOUND = new Audio('sounds/success.wav');
+var GAMEOVER_SOUND = new Audio('sounds/gameover.wav');
+
 var bricks = [];
 for(c=0; c<brickColumnCount; c++) {
 	bricks[c] = [];
@@ -153,15 +158,17 @@ function collisionDetection() {
 					dy = -dy;
 					b.status = 0;
 					score++;
+					SCORE_SOUND.play();
 					if(score == brickRowCount*brickColumnCount) {
-						alert("You Win, Congratulations Son!");
-						document.location.reload();
+						WINNING_SOUND.play();
+						alert("OMG, You won? Congratulations Son!");
+						doucment.location.reload();
 					}
 				}
 			}
 		}
 	}
-}	
+}
 
 
 
