@@ -32,6 +32,9 @@ var WINNING_SOUND = new Audio('sounds/woohoo.wav');
 var SCORE_SOUND = new Audio('sounds/success.wav');
 var GAMEOVER_SOUND = new Audio('sounds/gameover.wav');
 
+//Show Lives
+var lives = 3; 
+
 var bricks = [];
 for(c=0; c<brickColumnCount; c++) {
 	bricks[c] = [];
@@ -75,12 +78,7 @@ function drawPaddle() {
 	ctx.fill();
 	ctx.closePath();
 }
-function drawScore() {
-	ctx.font = "16px Arial";
-	ctx.fillStyle = "#0095DD";
-	ctx.fillText("Score: "+score, 8, 20);
-	document.getElementById("gamescore").innerHTML = "Score: " + score;
-}
+
 	
 
 
@@ -88,6 +86,7 @@ function draw() {
 	ctx.clearRect(0,0, canvas.width, canvas.height);
 	drawBall();
 	drawScore();
+	drawLives();
 	drawPaddle();
 	drawBricks();
 	collisionDetection();
@@ -108,13 +107,23 @@ function draw() {
 		   dy = -dy;
 	   }
 	   else {
-		   alert("GAME OVER");
-		   x = canvas.width/2;
-		   y = canvas.height - 30;
-		   document.location.reload();
+		   lives--;
+		   if(!lives) {
+			   GAMEOVER_SOUND.play();
+			   alert("GAME OVER");
+			   document.location.reload();
+		   }
+		   else {
+			   x = canvas.width/2;
+			   y = canvas.height-30;
+			   dx = 2;
+			   dy = -2;
+			   paddleX = (canvas.width-paddleWidth)/2;
+		   }
 	   }
     }
-    
+	
+	
 	if(rightPressed && paddleX < canvas.width-paddleWidth) {
 		paddleX += 7;
 	}
@@ -168,6 +177,20 @@ function collisionDetection() {
 			}
 		}
 	}
+}
+
+function drawScore() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "#0095DD";
+	ctx.fillText("Score: "+score, 8, 20);
+	document.getElementById("gamescore").innerHTML = "Score: " + score;
+}
+
+function drawLives() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "#0095DD";
+	ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+	document.getElementById("gamelives").innerHTML = "Lives: " + lives;
 }
 
 
