@@ -153,6 +153,10 @@ function collisionDetection() {
 					dy = -dy;
 					b.status = 0;
 					score++;
+					if(score == brickRowCount*brickColumnCount) {
+						alert("You Win, Congratulations Son!");
+						document.location.reload();
+					}
 				}
 			}
 		}
